@@ -18,7 +18,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="22dp" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -108,14 +108,11 @@
 
             <Button
                 android:id="@+id/idConnexion"
-                android:layout_width="wrap_content"
+                android:layout_width="205dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#A3A19A"
-                android:backgroundTint="#6286A3"
-                android:text="SE CONNECTER"
-                android:textColor="#FFFFFF"
-                app:iconTint="#A3A19A" />
+                android:backgroundTint="#4AA3CA"
+                android:text="CONNEXION" />
 
             <Space
                 android:layout_width="21dp"
@@ -132,6 +129,7 @@
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
             app:srcCompat="@drawable/neige_soleil_fond" />
 
     </LinearLayout>
