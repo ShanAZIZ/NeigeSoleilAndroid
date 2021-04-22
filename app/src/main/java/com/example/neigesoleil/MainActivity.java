@@ -68,29 +68,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onResponse(String bienvenue) {
                         System.out.println(userId + bienvenue);
-                        DataService.getProfile(userId, new DataService.ProfileListener() {
-                            @Override
-                            public void onError(String message) {
-//                                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-                                Intent unIntent = new Intent(MainActivity.this, ProfilActivity.class);
-                                Toast.makeText(MainActivity.this, bienvenue, Toast.LENGTH_SHORT).show();
-                                Toast.makeText(MainActivity.this, "Completez votre profil pour continuer", Toast.LENGTH_SHORT).show();
-                                unIntent.putExtra("token", authToken);
-                                unIntent.putExtra("id", userId);
-                                MainActivity.this.startActivity(unIntent);
-                            }
-
-                            @Override
-                            public void onResponse(String message) {
-                                if(!message.equals("")) {
-                                    Intent unIntent = new Intent(MainActivity.this, MenuActivity.class);
-                                    Toast.makeText(MainActivity.this, bienvenue, Toast.LENGTH_SHORT).show();
-                                    unIntent.putExtra("token", authToken);
-                                    unIntent.putExtra("id", userId);
-                                    MainActivity.this.startActivity(unIntent);
-                                }
-                            }
-                        });
+                        if(!bienvenue.equals("")) {
+                            Intent unIntent = new Intent(MainActivity.this, MenuActivity.class);
+                            Toast.makeText(MainActivity.this, bienvenue, Toast.LENGTH_SHORT).show();
+                            unIntent.putExtra("token", authToken);
+                            unIntent.putExtra("id", userId);
+                            MainActivity.this.startActivity(unIntent);
+                        }
                     }
                 });
             }

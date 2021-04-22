@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NeigeSoleil"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SettingProfileActivity"></activity>
+        <activity android:name=".ReservationActivity"></activity>
+        <activity android:name=".ContratActivity" />
+        <activity android:name=".SettingProfileActivity" />
         <activity android:name=".ProfilActivity" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".MainActivity">

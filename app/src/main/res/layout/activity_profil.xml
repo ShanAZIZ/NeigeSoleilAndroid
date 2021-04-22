@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
-            android:layout_height="121dp"
+            android:layout_height="89dp"
             app:srcCompat="@drawable/logo_neige_et_soleil" />
 
         <Space
@@ -52,7 +52,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="17dp" />
+            android:layout_height="14dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:text="Code Postale" />
 
             <Space
@@ -152,18 +152,19 @@
                 android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/idTelephoone"
+                android:id="@+id/idTelephone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="phone"
                 android:text="Telephone" />
 
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
         </LinearLayout>
 
         <Space
@@ -219,6 +220,34 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Valider" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/idRetourMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#B60808"
+                android:text="Retour" />
 
             <Space
                 android:layout_width="wrap_content"

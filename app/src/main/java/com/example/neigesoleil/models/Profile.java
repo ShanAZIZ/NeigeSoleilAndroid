@@ -29,6 +29,9 @@ public class Profile {
         this.rib = rib;
     }
 
+    public Profile() {
+    }
+
     public int getUser() {
         return user;
     }

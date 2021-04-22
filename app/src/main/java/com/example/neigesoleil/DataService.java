@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class DataService {
 
-    public static final String URL = "http://172.20.10.2:8000/api/";
+    public static final String URL = "http://192.168.0.12:8000/api/";
     public static final String URL_GET_TOKEN = "token-auth/";
     public static final String URL_PROFILE = "user-profile/";
 
@@ -93,7 +93,7 @@ public class DataService {
         void onResponse(String message);
     }
 
-    public static void getProfile(String id, ProfileListener profileListener){
+    public static void getProfile(String id, String token, ProfileListener profileListener){
         String url = URL + URL_PROFILE + id + "/";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -107,14 +107,11 @@ public class DataService {
                 profileListener.onError(error.toString());
             }
         }){
-            /**
-             * Passing some request headers
-             * */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
-                headers.put("Authorization", "Token "+ MainActivity.getAuthToken());
+                headers.put("Authorization", "Token "+ token);
                 return headers;
             }
         };
