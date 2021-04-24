@@ -8,12 +8,15 @@ import com.android.volley.Request;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.neigesoleil.models.Profile;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +25,7 @@ public class DataService {
     public static final String URL = "http://192.168.0.12:8000/api/";
     public static final String URL_GET_TOKEN = "token-auth/";
     public static final String URL_PROFILE = "user-profile/";
+    public static final String URL_SET_PROFILE = "profile/";
 
     static Context context;
 
@@ -31,6 +35,11 @@ public class DataService {
 
     public static void setContext(Context context) {
         DataService.context = context;
+    }
+
+    public interface StringListener{
+        void onError(String message);
+        void onResponse(String message);
     }
 
     public interface TokenListener{
@@ -88,12 +97,7 @@ public class DataService {
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-    public interface ProfileListener{
-        void onError(String message);
-        void onResponse(String message);
-    }
-
-    public static void getProfile(String id, String token, ProfileListener profileListener){
+    public static void getProfile(String id, String token, StringListener profileListener){
         String url = URL + URL_PROFILE + id + "/";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -117,5 +121,55 @@ public class DataService {
         };
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
+
+    public static void setProfile(JSONObject profile, Boolean isProfile, String authToken, StringListener tk){
+        String url = URL + URL_SET_PROFILE;
+        int method;
+        if (isProfile) {
+            try {
+                url += String.valueOf(profile.getInt("id")) + "/";
+                method = 2; // PUT = 2
+            } catch (JSONException e) {
+                e.printStackTrace();
+                method = 1; // POST = 1
+            }
+        } else {
+            method = 1;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(method, url, profile, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                tk.onResponse("Votre profil est désormais complet !");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                try {
+                    if (error.networkResponse.statusCode == 400) {
+                        tk.onError("Vérifiés les informations");
+                    } else {
+                        tk.onError("Erreur");
+                    }
+                }catch (Exception e) {
+                    tk.onError("Une erreur est survenue");
+                    e.printStackTrace();
+                }
+            }
+        }){
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", "Token "+ authToken);
+                return headers;
+            }
+        };
+        MySingleton.getInstance(context).addToRequestQueue(request);
+    }
+
 
 }

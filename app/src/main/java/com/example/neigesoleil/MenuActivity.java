@@ -41,7 +41,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void checkProfileComplete(){
-        DataService.getProfile(userId, authToken, new DataService.ProfileListener() {
+        DataService.getProfile(userId, authToken, new DataService.StringListener() {
             @Override
             public void onError(String message) {
                 isProfile = false;
@@ -79,6 +79,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             intent = new Intent(this, ProfilActivity.class);
             intent.putExtra("token", authToken);
             intent.putExtra("id", userId);
+            intent.putExtra("isprofile", isProfile);
             this.startActivity(intent);
         }
 

@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.example.neigesoleil.models.Profile;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 public class ProfilActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,8 +29,9 @@ public class ProfilActivity extends AppCompatActivity implements View.OnClickLis
 
     private String userId;
     private String authToken;
+    private Boolean isProfile;
 
-    private Profile currentProfile;
+    private Profile currentProfile = new Profile();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +48,14 @@ public class ProfilActivity extends AppCompatActivity implements View.OnClickLis
 
         this.authToken = this.getIntent().getStringExtra("token").toString();
         this.userId = this.getIntent().getStringExtra("id").toString();
+        this.isProfile = this.getIntent().getBooleanExtra("isprofile", false);
 
         this.btnValider.setOnClickListener(this);
         this.btnRetour.setOnClickListener(this);
 
         DataService.setContext(this);
 
-        DataService.getProfile(userId, authToken, new DataService.ProfileListener() {
+        DataService.getProfile(userId, authToken, new DataService.StringListener() {
             @Override
             public void onError(String message) {
                 Toast.makeText(DataService.context, "Completez votre profile", Toast.LENGTH_SHORT).show();
@@ -73,16 +78,50 @@ public class ProfilActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+
+
+    }
+
+    public void sendProfile(Profile currentProfile){
+        JsonNode node = JsonHandler.toJson(currentProfile);
+        try {
+            JSONObject jObject = new JSONObject(node.toString());
+            DataService.setProfile(jObject, isProfile, authToken, new DataService.StringListener(){
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(DataService.context, message, Toast.LENGTH_SHORT).show();
+                }
+                @Override
+                public void onResponse(String message) {
+                    Intent intent = new Intent(DataService.context, MenuActivity.class);
+                    intent.putExtra("token", authToken);
+                    intent.putExtra("id", userId);
+                    ProfilActivity.this.startActivity(intent);
+                    Toast.makeText(DataService.context, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(DataService.context, "Une erreur est survenue", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = null;
         if (v.getId() == R.id.idRetourMenu){
-            intent = new Intent(this, MenuActivity.class);
+            Intent intent = new Intent(this, MenuActivity.class);
             intent.putExtra("token", authToken);
             intent.putExtra("id", userId);
             this.startActivity(intent);
+        }
+        else if(v.getId() == R.id.idValiderProfil){
+            currentProfile.setAdresse(txtAdresse.getText().toString());
+            currentProfile.setCode_postale(txtCodePostale.getText().toString());
+            currentProfile.setVille(txtVille.getText().toString());
+            currentProfile.setTelephone(txtTelephone.getText().toString());
+            currentProfile.setRib(txtRib.getText().toString());
+            currentProfile.setUser(Integer.parseInt(this.userId));
+            sendProfile(currentProfile);
         }
     }
 }
