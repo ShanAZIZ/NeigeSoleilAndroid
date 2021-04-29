@@ -1,7 +1,6 @@
-package com.example.neigesoleil;
+package com.example.neigesoleil.dataservices;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -10,44 +9,26 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.neigesoleil.models.Profile;
+import com.example.neigesoleil.MainActivity;
+import com.example.neigesoleil.MySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataService {
+public class UserDataService extends DataService {
 
-    public static final String URL = "http://192.168.0.12:8000/api/";
+
     public static final String URL_GET_TOKEN = "token-auth/";
     public static final String URL_PROFILE = "user-profile/";
     public static final String URL_SET_PROFILE = "profile/";
 
-    static Context context;
 
-    public static Context getContext() {
-        return context;
-    }
 
-    public static void setContext(Context context) {
-        DataService.context = context;
-    }
-
-    public interface StringListener{
-        void onError(String message);
-        void onResponse(String message);
-    }
-
-    public interface TokenListener{
-        void onError(String message);
-        void onResponse(String message);
-    }
-
-    public static void getToken(String username, String password, TokenListener tk){
+    public static void getToken(String username, String password, StringListener tk){
         String url = URL + URL_GET_TOKEN;
         JSONObject js = new JSONObject();
         try {
@@ -140,7 +121,7 @@ public class DataService {
         JsonObjectRequest request = new JsonObjectRequest(method, url, profile, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                tk.onResponse("Votre profil est désormais complet !");
+                tk.onResponse("Profil à jour !");
             }
         }, new Response.ErrorListener() {
             @Override

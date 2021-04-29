@@ -9,7 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.neigesoleil.models.Profile;
+import com.example.neigesoleil.dataservices.DataService;
+import com.example.neigesoleil.dataservices.UserDataService;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Veuillez tout remplir les champs", Toast.LENGTH_LONG).show();
             }
             else {
-                DataService.getToken(username, password, new DataService.TokenListener() {
+                UserDataService.getToken(username, password, new DataService.StringListener() {
                     @Override
                     public void onError(String error) {
                         Toast.makeText(MainActivity.this, error , Toast.LENGTH_SHORT).show();

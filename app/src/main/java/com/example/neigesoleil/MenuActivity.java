@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.neigesoleil.dataservices.DataService;
+import com.example.neigesoleil.dataservices.UserDataService;
+
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnContrat;
@@ -41,7 +44,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void checkProfileComplete(){
-        DataService.getProfile(userId, authToken, new DataService.StringListener() {
+        UserDataService.getProfile(userId, authToken, new UserDataService.StringListener() {
             @Override
             public void onError(String message) {
                 isProfile = false;

@@ -9,13 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.neigesoleil.dataservices.DataService;
+import com.example.neigesoleil.dataservices.UserDataService;
 import com.example.neigesoleil.models.Profile;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 public class ProfilActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,7 +55,7 @@ public class ProfilActivity extends AppCompatActivity implements View.OnClickLis
 
         DataService.setContext(this);
 
-        DataService.getProfile(userId, authToken, new DataService.StringListener() {
+        UserDataService.getProfile(userId, authToken, new UserDataService.StringListener() {
             @Override
             public void onError(String message) {
                 Toast.makeText(DataService.context, "Completez votre profile", Toast.LENGTH_SHORT).show();
@@ -86,7 +86,7 @@ public class ProfilActivity extends AppCompatActivity implements View.OnClickLis
         JsonNode node = JsonHandler.toJson(currentProfile);
         try {
             JSONObject jObject = new JSONObject(node.toString());
-            DataService.setProfile(jObject, isProfile, authToken, new DataService.StringListener(){
+            UserDataService.setProfile(jObject, isProfile, authToken, new UserDataService.StringListener(){
                 @Override
                 public void onError(String message) {
                     Toast.makeText(DataService.context, message, Toast.LENGTH_SHORT).show();
