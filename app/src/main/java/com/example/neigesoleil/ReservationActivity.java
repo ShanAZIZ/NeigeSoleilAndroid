@@ -33,7 +33,7 @@ public class ReservationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
 
-        this.lvReservations = (ListView) findViewById(R.id.idListReservations);
+        this.lvReservations = (ListView) findViewById(R.id.idListContrats);
         this.btnRetour = (Button) findViewById(R.id.idRetourMenu);
 
         this.authToken = this.getIntent().getStringExtra("token").toString();
