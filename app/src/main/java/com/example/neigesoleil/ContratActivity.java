@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.neigesoleil.dataservices.ContratDataService;
 import com.example.neigesoleil.dataservices.DataService;
@@ -24,9 +26,11 @@ public class ContratActivity extends AppCompatActivity {
     private ArrayList<Contrat> lesContrats = new ArrayList<>();
     private ListView lvContrats;
     private Button btnRetour;
+    private ArrayAdapter arrayAdapter;
 
     private String idUser;
     private String authToken;
+    private Boolean isProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class ContratActivity extends AppCompatActivity {
 
         this.authToken = this.getIntent().getStringExtra("token").toString();
         this.idUser = this.getIntent().getStringExtra("id").toString();
+        this.isProfile = this.getIntent().getBooleanExtra("isprofile", false);
 
         DataService.setContext(this);
 
@@ -57,7 +62,7 @@ public class ContratActivity extends AppCompatActivity {
                         Contrat unContrat = JsonHandler.fromJson(it.next(), Contrat.class);
                         lesContrats.add(unContrat);
                     }
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(DataService.context, android.R.layout.simple_list_item_1, lesContrats);
+                    arrayAdapter = new ArrayAdapter(DataService.context, android.R.layout.simple_list_item_1, lesContrats);
                     lvContrats.setAdapter(arrayAdapter);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -73,6 +78,21 @@ public class ContratActivity extends AppCompatActivity {
                 intent.putExtra("token", authToken);
                 ContratActivity.this.startActivity(intent);
             }
+        });
+
+        lvContrats.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Contrat ct = (Contrat) arrayAdapter.getItem(position);
+                Toast.makeText(ContratActivity.this, "Nom : " + ct.getNom(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ContratActivity.this, ContratDetailActivity.class);
+                intent.putExtra("id", idUser);
+                intent.putExtra("token", authToken);
+                intent.putExtra("contrat", String.valueOf(ct.getId()));
+                intent.putExtra("isprofile", isProfile);
+                ContratActivity.this.startActivity(intent);
+            }
+
         });
     }
 }

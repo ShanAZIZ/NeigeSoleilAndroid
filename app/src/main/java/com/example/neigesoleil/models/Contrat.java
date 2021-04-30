@@ -209,10 +209,25 @@ public class Contrat {
         this.date_creation = date_creation;
     }
 
+    public String detailString() {
+        String detail =
+                "Description : \n" + this.description + "\n\n" +
+                        "Adresse : " + this.adresse + ", " + this.ville + " " + this.code_postale + "\n" +
+                        "Type : " + this.type + "  " +
+                        "Capacite : " + this.capacite + "Personnes \n" +
+                        "Surface Totale : " + this.surface_habitable + this.surface_balcon + " m2 " +
+                        "Exposition : " + this.exposition + "\n" +
+                        "Prix Hebdomadaire : " + this.prix_saison_moyenne + "€";
+
+        return  detail;
+    }
+
     @Override
     public String toString() {
         return "Nom : " + this.nom + "\n" +
-                "Description : " + this.description + "\n" +
+                "Type : " + this.type + "\n" +
+                "Surface Totale : " + this.surface_habitable + this.surface_balcon + " m2\n" +
+                "Exposition : " + this.exposition + "\n" +
                 "Prix Hebdomadaire : " + this.prix_saison_moyenne + "€";
     }
 }

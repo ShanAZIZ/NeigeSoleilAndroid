@@ -66,6 +66,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             intent = new Intent(this, ContratActivity.class);
             intent.putExtra("token", authToken);
             intent.putExtra("id", userId);
+            intent.putExtra("isprofile", isProfile);
             this.startActivity(intent);
         }
         else if (v.getId() == R.id.idReservationButton){
@@ -87,7 +88,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         else if (v.getId() == R.id.idDeconnexion){
-
+            authToken = "";
+            intent = new Intent(this, MainActivity.class);
+            this.startActivity(intent);
         }
 
     }
