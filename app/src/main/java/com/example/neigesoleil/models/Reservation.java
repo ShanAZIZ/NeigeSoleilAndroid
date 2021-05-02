@@ -24,6 +24,13 @@ public class Reservation {
         this.status_reservation = status_reservation;
     }
 
+    public Reservation(int user, int propriete, String date_debut_sejour, String date_fin_sejour) {
+        this.user = user;
+        this.propriete = propriete;
+        this.date_debut_sejour = date_debut_sejour;
+        this.date_fin_sejour = date_fin_sejour;
+    }
+
     public int getId() {
         return id;
     }

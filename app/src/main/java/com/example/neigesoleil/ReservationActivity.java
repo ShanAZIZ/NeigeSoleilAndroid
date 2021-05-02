@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.neigesoleil.dataservices.DataService;
 import com.example.neigesoleil.dataservices.ReservationDataService;
 import com.example.neigesoleil.dataservices.UserDataService;
+import com.example.neigesoleil.models.Contrat;
 import com.example.neigesoleil.models.Reservation;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -27,6 +30,8 @@ public class ReservationActivity extends AppCompatActivity {
 
     private String idUser;
     private String authToken;
+
+    private ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +63,26 @@ public class ReservationActivity extends AppCompatActivity {
                         System.out.println(uneReservation.getId());
                         lesReservations.add(uneReservation);
                     }
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(DataService.context, android.R.layout.simple_list_item_1, lesReservations);
+                    arrayAdapter = new ArrayAdapter(DataService.context, android.R.layout.simple_list_item_1, lesReservations);
                     lvReservations.setAdapter(arrayAdapter);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
 
+            }
+        });
+
+        this.lvReservations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Reservation rv = (Reservation) arrayAdapter.getItem(position);
+                Intent intent = new Intent(ReservationActivity.this, FormReservationActivity.class);
+                intent.putExtra("id", idUser);
+                intent.putExtra("token", authToken);
+                intent.putExtra("reservationid", String.valueOf(rv.getId()));
+                intent.putExtra("contratid", String.valueOf(rv.getPropriete()));
+                ReservationActivity.this.startActivity(intent);
             }
         });
 
