@@ -77,9 +77,6 @@ public class ProfilActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
-
-
-
     }
 
     public void sendProfile(Profile currentProfile){

@@ -43,6 +43,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    // Verifie si un utilisateur a un profil complet
     public void checkProfileComplete(){
         UserDataService.getProfile(userId, authToken, new UserDataService.StringListener() {
             @Override

@@ -32,7 +32,7 @@ public class FormReservationActivity extends AppCompatActivity implements View.O
     private Button btnValider;
     private Button btnAnnuler;
 
-    private Reservation uneReservation = null;
+    private Reservation uneReservation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class FormReservationActivity extends AppCompatActivity implements View.O
         this.dateFin = findViewById(R.id.idDateFin);
         this.btnValider = findViewById(R.id.idValiderReservation);
         this.btnAnnuler = findViewById(R.id.idAnnuler);
+        this.uneReservation = null;
 
         if (!this.reservationId.equals("")){
             ReservationDataService.getReservationDetail(reservationId, authToken, new DataService.StringListener() {
@@ -116,11 +117,13 @@ public class FormReservationActivity extends AppCompatActivity implements View.O
                         dateDebut.getText().toString(),
                         dateFin.getText().toString()
                         );
+                System.out.println("POST");
                 sendRequest(Request.Method.POST);
             }
             else {
                 uneReservation.setDate_debut_sejour(dateDebut.getText().toString());
                 uneReservation.setDate_fin_sejour(dateFin.getText().toString());
+                System.out.println("PUT");
                 sendRequest(Request.Method.PUT);
             }
         }
