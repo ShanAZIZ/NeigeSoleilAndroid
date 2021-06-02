@@ -77,12 +77,18 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Reservation rv = (Reservation) arrayAdapter.getItem(position);
-                Intent intent = new Intent(ReservationActivity.this, FormReservationActivity.class);
-                intent.putExtra("id", idUser);
-                intent.putExtra("token", authToken);
-                intent.putExtra("reservationid", String.valueOf(rv.getId()));
-                intent.putExtra("contratid", String.valueOf(rv.getPropriete()));
-                ReservationActivity.this.startActivity(intent);
+                System.out.println(rv.getStatus_reservation());
+                if(rv.getStatus_reservation().equals("WAIT")){
+                    Intent intent = new Intent(ReservationActivity.this, ReservationOptionActivity.class);
+                    intent.putExtra("id", idUser);
+                    intent.putExtra("token", authToken);
+                    intent.putExtra("reservationid", String.valueOf(rv.getId()));
+                    intent.putExtra("contratid", String.valueOf(rv.getPropriete()));
+                    ReservationActivity.this.startActivity(intent);
+                } else {
+                    Toast.makeText(ReservationActivity.this, "Vous ne pouvez plus toucher a cette reservation. Pour la modifier, contactez votre service client", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
